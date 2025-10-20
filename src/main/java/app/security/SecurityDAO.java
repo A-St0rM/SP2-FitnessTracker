@@ -4,7 +4,6 @@ import app.config.HibernateConfig;
 import app.exceptions.EntityNotFoundException;
 import app.exceptions.ValidationException;
 import app.security.interfaces.ISecurityDAO;
-import app.entities.Role;
 import app.entities.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -41,7 +40,7 @@ public class SecurityDAO implements ISecurityDAO {
         }
 
     }
-
+/*
     @Override
     public Role createRole(String rolename) {
         try(EntityManager em = emf.createEntityManager()){
@@ -55,6 +54,8 @@ public class SecurityDAO implements ISecurityDAO {
 
     }
 
+ */
+/*
     @Override
     public User addUserRole(String username, String role) {
 
@@ -72,6 +73,10 @@ public class SecurityDAO implements ISecurityDAO {
         }
     }
 
+ */
+
+
+/*
     public static void main(String[] args) {
         ISecurityDAO dao = new SecurityDAO(HibernateConfig.getEntityManagerFactory());
 
@@ -92,4 +97,8 @@ public class SecurityDAO implements ISecurityDAO {
             e.printStackTrace();
         }
     }
+
+ */
+
+
 }
