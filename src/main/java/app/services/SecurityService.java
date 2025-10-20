@@ -45,10 +45,12 @@ public class SecurityService {
 //
 //        return new UserDTO(createdUser.getUsername(), roles);
 //    }
-
+/*
     public void assignRole(String username, String role) {
         securityDAO.addUserRole(username, role);
     }
+
+ */
 
     public boolean userHasAllowedRole(UserDTO user, Set<String> allowedRoles) {
         return user.getRoles().stream()
