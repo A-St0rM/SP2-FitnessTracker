@@ -1,0 +1,54 @@
+### Create hotel
+POST http://localhost:7007/api/v1/hotel
+Content-Type: application/json
+
+{
+  "hotelName": "Marienlyst",
+  "hotelAddress": "banegårdsvej 14",
+  "rooms": [
+    {"number": "67", "price": 120.0},
+    {"number": "14", "price": 150.0}
+  ]
+}
+
+
+### GET alle hotels
+GET http://localhost:7007/api/v1/hotel/
+
+
+### GET hotel by id
+GET http://localhost:7007/api/v1/hotel/1
+
+### Update hotel by id
+PUT http://localhost:7007/api/v1/hotel/1
+Content-Type: application/json
+
+{
+  "hotelName": "Regnbad",
+  "hotelAddress": "Plantagevej 29",
+
+  "rooms":[
+
+  ]
+
+}
+
+### Delete hotel by id
+DELETE http://localhost:7007/api/v1/hotel/1
+
+
+### Get rooms for hotel by hotel id
+GET http://localhost:7007/api/v1/hotel/1/rooms
+
+
+### Add room to hotel by hotel id
+POST http://localhost:7007/api/v1/hotel/1/rooms
+Content-Type: application/json
+
+{
+  "number": "99",
+  "price": 200.0
+}
+
+### Delete room from hotel with hotelId and roomId
+DELETE http://localhost:7007/api/v1/hotel/1/rooms/2
