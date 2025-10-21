@@ -1,9 +1,9 @@
 package app.config;
 
-import app.entities.Hotel;
-import app.entities.Room;
-import app.entities.Role;
+import app.entities.Exercise;
+import app.entities.Goal;
 import app.entities.User;
+import app.entities.Workout;
 import app.utils.Utils;
 
 import jakarta.persistence.EntityManagerFactory;
@@ -43,10 +43,13 @@ public class HibernateConfig {
 
     // TODO: IMPORTANT: Add Entity classes here for them to be registered with Hibernate
     private static void getAnnotationConfiguration(Configuration configuration) {
-         configuration.addAnnotatedClass(Hotel.class);
-         configuration.addAnnotatedClass(Room.class);
          configuration.addAnnotatedClass(User.class);
-         configuration.addAnnotatedClass(Role.class);
+         configuration.addAnnotatedClass(Exercise.class);
+        configuration.addAnnotatedClass(Workout.class);
+        configuration.addAnnotatedClass(Goal.class);
+
+
+
     }
 
     private static EntityManagerFactory createEMF(boolean forTest) {

@@ -50,6 +50,8 @@ public class SecurityController implements ISecurityController {
     }
 
 
+
+
     public Handler register() {
         return ctx -> {
             User user = ctx.bodyAsClass(User.class);
