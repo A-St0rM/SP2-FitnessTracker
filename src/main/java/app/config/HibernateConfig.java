@@ -1,7 +1,6 @@
 package app.config;
 
 import app.entities.Exercise;
-import app.entities.Goal;
 import app.entities.User;
 import app.entities.Workout;
 import app.utils.Utils;
@@ -46,7 +45,6 @@ public class HibernateConfig {
          configuration.addAnnotatedClass(User.class);
          configuration.addAnnotatedClass(Exercise.class);
         configuration.addAnnotatedClass(Workout.class);
-        configuration.addAnnotatedClass(Goal.class);
 
 
 

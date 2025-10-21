@@ -31,10 +31,6 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Workout> workouts = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Goal> goals = new HashSet<>();
-
-
     public User(String email, String password){
         this.email = email;
         String hashed = BCrypt.hashpw(password, BCrypt.gensalt());

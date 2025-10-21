@@ -7,7 +7,7 @@ import jakarta.persistence.EntityManagerFactory;
 
 import java.util.List;
 
-public class ExerciseDAO implements IDAO<Exercise, Integer>{
+public class   ExerciseDAO implements IDAO<Exercise, Integer>{
     EntityManagerFactory emf;
 
     public ExerciseDAO(EntityManagerFactory emf){
