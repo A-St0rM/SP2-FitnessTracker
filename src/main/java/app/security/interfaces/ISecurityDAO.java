@@ -1,6 +1,5 @@
 package app.security.interfaces;
 
-import app.entities.User;
 import io.javalin.validation.ValidationException;
 
 public interface ISecurityDAO {

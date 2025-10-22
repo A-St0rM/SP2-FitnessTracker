@@ -1,7 +1,6 @@
 package app.security;
 
 import app.config.HibernateConfig;
-import app.entities.User;
 import app.exceptions.ValidationException;
 import app.security.interfaces.ISecurityController;
 import app.security.interfaces.ISecurityDAO;
