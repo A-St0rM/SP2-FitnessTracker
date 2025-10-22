@@ -12,7 +12,7 @@ public class WeeklySchedule {
     private Long id;
 
     @ManyToOne(optional=false) @JoinColumn(name="user_id")
-    private User user; // hvis single-user: fjern denne og unique på weekday alene
+    private User user;
 
     @Enumerated(EnumType.STRING) @Column(nullable=false)
     private Weekday weekday;
