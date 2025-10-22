@@ -12,12 +12,14 @@ import static io.javalin.apibuilder.ApiBuilder.path;
 public class Route {
 
     private SecurityRoute securityRoute = new SecurityRoute();
+    private ExerciseRoutes exerciseRoutes = new ExerciseRoutes();
     private static ObjectMapper jsonMapper = new Utils().getObjectMapper();
 
     public EndpointGroup getRoutes() {
         return () -> {
             path("/auth", securityRoute.getSecurityRoutes());
             path("/protected", getSecuredRoutes());
+            path("/exercise", exerciseRoutes.getRoutes());
         };
     }
 
