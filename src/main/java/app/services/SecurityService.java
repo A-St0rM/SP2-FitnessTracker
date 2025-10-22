@@ -1,13 +1,9 @@
 package app.services;
 
-import app.entities.User;
-import app.exceptions.ValidationException;
 import app.security.interfaces.ISecurityDAO;
 import dk.bugelhartmann.UserDTO;
 
-import javax.management.relation.Role;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class SecurityService {
     private final ISecurityDAO securityDAO;

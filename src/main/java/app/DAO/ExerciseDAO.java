@@ -1,5 +1,7 @@
 package app.DAO;
 
+
+import app.config.HibernateConfig;
 import app.entities.Exercise;
 import app.entities.Workout;
 import app.mapper.ExerciseMapper;
@@ -7,36 +9,28 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.jdbc.Work;
 
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.TypedQuery;
+
 import java.util.List;
+import java.util.Optional;
 
-public class ExerciseDAO implements IDAO<Exercise, Integer>{
-    EntityManagerFactory emf;
+public class ExerciseDAO{
 
-    public ExerciseDAO(EntityManagerFactory emf){
+    private final EntityManagerFactory emf;
+
+    public ExerciseDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
 
-
-    @Override
-    public List<Exercise> getAll() {
-        try(EntityManager em = emf.createEntityManager()){
-            return em.createQuery("SELECT e FROM Exercise e", Exercise.class).getResultList();
-        }
+    public ExerciseDAO() {
+        this(HibernateConfig.getEntityManagerFactory());
     }
 
-    @Override
-    public Exercise getById(Integer id) {
-        try(EntityManager em = emf.createEntityManager()){
-            em.getTransaction().begin();
-            Exercise foundExercise = em.find(Exercise.class, id);
-            em.getTransaction().commit();
-            return foundExercise;
-        }
-    }
-
-    @Override
     public Exercise create(Exercise exercise) {
-        try(EntityManager em = emf.createEntityManager()){
+        try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             em.persist(exercise);
             em.getTransaction().commit();
@@ -44,30 +38,23 @@ public class ExerciseDAO implements IDAO<Exercise, Integer>{
         }
     }
 
-    @Override
-    public Exercise update(Exercise exercise) {
-        try(EntityManager em = emf.createEntityManager()){
-            em.getTransaction().begin();
-            Exercise updatedExercise = em.merge(exercise);
-            em.getTransaction().commit();
-            return updatedExercise;
+    public Optional<Exercise> findById(Long id) {
+        try (EntityManager em = emf.createEntityManager()) {
+            Exercise e = em.find(Exercise.class, id);
+            return Optional.ofNullable(e);
         }
     }
 
-    @Override
-    public boolean delete(Integer id) {
-        try(EntityManager em = emf.createEntityManager()){
-            em.getTransaction().begin();
-            Exercise foundExercise = em.find(Exercise.class, id);
-            em.remove(foundExercise);
-            em.getTransaction().commit();
-            if(foundExercise == null){
-                return false;
-            } else {
-                return true;
-            }
+    public Optional<Exercise> findByExternalId(String externalId) {
+        try (EntityManager em = emf.createEntityManager()) {
+            TypedQuery<Exercise> q = em.createQuery(
+                    "SELECT e FROM Exercise e WHERE e.externalId = :externalId", Exercise.class);
+            q.setParameter("externalId", externalId);
+            List<Exercise> result = q.getResultList();
+            return result.stream().findFirst();
         }
     }
+
 
     public void addExerciseToWorkout(Exercise exercise, Workout workout){
         try(EntityManager em = emf.createEntityManager()){
@@ -77,13 +64,33 @@ public class ExerciseDAO implements IDAO<Exercise, Integer>{
             Exercise specifikExercise = em.find(Exercise.class, exercise.getId());
 
 
-            if(specificWorkout != null && specifikExercise != null){
-                specifikExercise.getWorkouts().add(specificWorkout);
-                specificWorkout.getExercises().add(specifikExercise);
-            }
+    public List<Exercise> search(String query, int limit) {
+        try (EntityManager em = emf.createEntityManager()) {
+            return em.createQuery("""
+                SELECT e FROM Exercise e
+                WHERE LOWER(e.name) LIKE :q
+                   OR LOWER(e.muscleGroup) LIKE :q
+                   OR LOWER(e.equipment) LIKE :q
+                """, Exercise.class)
+                    .setParameter("q", "%" + query.toLowerCase() + "%")
+                    .setMaxResults(limit)
+                    .getResultList();
+        }
+    }
 
-            em.persist(exercise);
-            em.persist(specificWorkout);
+
+    public List<Exercise> readAll() {
+        try (EntityManager em = emf.createEntityManager()) {
+            TypedQuery<Exercise> q = em.createQuery("SELECT e FROM Exercise e", Exercise.class);
+            return q.getResultList();
+        }
+    }
+
+    public void delete(Long id) {
+        try (EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            Exercise e = em.find(Exercise.class, id);
+            if (e != null) em.remove(e);
             em.getTransaction().commit();
         }
     }
