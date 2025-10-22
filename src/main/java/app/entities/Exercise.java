@@ -3,25 +3,28 @@ package app.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
-@Getter
-@Setter
+@Entity
+@Table(name = "exercises")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
 public class Exercise {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String name;
-    private String muscleGroup;
-    private int reps;
-    private double personalRecord;
+    private Long id;
 
-    @ManyToMany(mappedBy = "exercises")
-    private Set<Workout> workouts = new HashSet<>();
+    @Column(nullable = false)
+    private String name;
+
+    private String muscleGroup;
+    private String equipment;
+
+    @Column(unique = true, nullable = false)
+    private String externalId;
+
+    @Column(length = 2000)
+    private String instructions;  // beskrivelse fra API
 }
 
