@@ -1,11 +1,25 @@
-###
-POST http://localhost:7007/api/v1/auth/login
+
+### User create
+POST http://localhost:7007/api/v1/auth/register
+Content-Type: application/json
 
 {
-    "username": "user1",
-    "password": "pass123"
+  "email": "demo@mail.com",
+  "password": "democode123"
+
+}
+
+### User login
+POST http://localhost:7007/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "demo@mail.com",
+  "password": "democode123"
+
 }
 
 ###
 GET http://localhost:7007/api/v1/protected/user_demo
 Authorization: Bearer eYJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIkFsaXNzYSBBbmRyZWEgU3Rvcm1cIiIsInN1YiI6InVzZXIxIiwiZXhwIjoxNzU5ODIzMTAzLCJyb2xlcyI6IlVzZXIiLCJ1c2VybmFtZSI6InVzZXIxIn0.rz-RClzD45SHR9GnJKeULhmvnMbFmYK4OYqyG1eJg6I
+

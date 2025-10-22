@@ -2,10 +2,13 @@ package app.services;
 
 import app.exceptions.ApiException;
 import app.security.SecurityController;
+import app.security.TokenSecurity;
 import app.utils.Utils;
-import dk.bugelhartmann.TokenSecurity;
+//import dk.bugelhartmann.TokenSecurity;
+//import dk.bugelhartmann.TokenVerificationException;
+//import dk.bugelhartmann.UserDTO;
+import app.dtos.UserDTO;
 import dk.bugelhartmann.TokenVerificationException;
-import dk.bugelhartmann.UserDTO;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.UnauthorizedResponse;
 import org.slf4j.Logger;
@@ -33,7 +36,7 @@ public class TokenService {
                 TOKEN_EXPIRE_TIME = Utils.getPropertyValue("TOKEN_EXPIRE_TIME", "config.properties");
                 SECRET_KEY = Utils.getPropertyValue("SECRET_KEY", "config.properties");
             }
-            return tokenSecurity.createToken(user, ISSUER, TOKEN_EXPIRE_TIME, SECRET_KEY);
+            return tokenSecurity.createToken(user, ISSUER, Integer.parseInt(TOKEN_EXPIRE_TIME), SECRET_KEY);
         } catch (Exception e) {
             logger.error("Could not create token", e);
             throw new ApiException(500, "Could not create token");
