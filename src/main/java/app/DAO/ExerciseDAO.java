@@ -3,9 +3,17 @@ package app.DAO;
 
 import app.config.HibernateConfig;
 import app.entities.Exercise;
+import app.entities.Workout;
+import app.mapper.ExerciseMapper;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import org.hibernate.jdbc.Work;
+
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.TypedQuery;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +55,15 @@ public class ExerciseDAO{
         }
     }
 
+
+    public void addExerciseToWorkout(Exercise exercise, Workout workout){
+        try(EntityManager em = emf.createEntityManager()){
+            em.getTransaction().begin();
+
+            Workout specificWorkout = em.find(Workout.class, workout.getId());
+            Exercise specifikExercise = em.find(Exercise.class, exercise.getId());
+
+
     public List<Exercise> search(String query, int limit) {
         try (EntityManager em = emf.createEntityManager()) {
             return em.createQuery("""
@@ -61,6 +78,7 @@ public class ExerciseDAO{
         }
     }
 
+
     public List<Exercise> readAll() {
         try (EntityManager em = emf.createEntityManager()) {
             TypedQuery<Exercise> q = em.createQuery("SELECT e FROM Exercise e", Exercise.class);
@@ -74,6 +92,16 @@ public class ExerciseDAO{
             Exercise e = em.find(Exercise.class, id);
             if (e != null) em.remove(e);
             em.getTransaction().commit();
+        }
+    }
+
+    public List<Exercise> getExercisesForWorkout(Workout workout){
+
+        try(EntityManager em = emf.createEntityManager()){
+            em.getTransaction().begin();
+            Workout foundWorkout = em.find(Workout.class, workout.getId());
+
+            return foundWorkout.getExercises().stream().toList();
         }
     }
 }
