@@ -1,9 +1,13 @@
 package app.services;
 
+import app.entities.User;
+import app.exceptions.ValidationException;
 import app.security.interfaces.ISecurityDAO;
-import dk.bugelhartmann.UserDTO;
+import app.enums.Role;
+import app.dtos.UserDTO;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class SecurityService {
     private final ISecurityDAO securityDAO;
@@ -12,35 +16,26 @@ public class SecurityService {
         this.securityDAO = securityDAO;
     }
 
-//    public UserDTO login(String username, String password) throws ValidationException {
-//        User verified = securityDAO.getVerifiedUser(username, password);
-//
-//        Set<String> roles = verified.getRoles()
-//                .stream()
-//                .map(role -> role.getRolename())
-//                .collect(Collectors.toSet());
-//
-//        return new UserDTO(verified.getUsername(), roles);
-//    }
-//
-//
-//    public UserDTO register(String username, String password) {
-//        User createdUser = securityDAO.createUser(username, password);
-//
-//        // Sørg for at USER-rolle findes
-//        try {
-//            securityDAO.createRole("USER");
-//        } catch (Exception ignored) {}
-//
-//        securityDAO.addUserRole(createdUser.getUsername(), "USER");
-//
-//        Set<String> roles = createdUser.getRoles()
-//                .stream()
-//                .map(role -> role.getRolename())
-//                .collect(Collectors.toSet());
-//
-//        return new UserDTO(createdUser.getUsername(), roles);
-//    }
+    public UserDTO login(String username, String password) throws ValidationException {
+        User verified = securityDAO.getVerifiedUser(username, password);
+
+        Set<Role> roles = verified.getRole()
+                .stream()
+                .collect(Collectors.toSet());
+
+        return new UserDTO(verified.getEmail(), roles);
+    }
+
+
+    public UserDTO register(String username, String password) {
+        User createdUser = securityDAO.createUser(username, password);
+
+        Set<Role> roles = createdUser.getRole()
+                .stream()
+                .collect(Collectors.toSet());
+
+        return new UserDTO(createdUser.getEmail(), roles);
+    }
 /*
     public void assignRole(String username, String role) {
         securityDAO.addUserRole(username, role);
@@ -50,7 +45,7 @@ public class SecurityService {
 
     public boolean userHasAllowedRole(UserDTO user, Set<String> allowedRoles) {
         return user.getRoles().stream()
-                .anyMatch(role -> allowedRoles.contains(role.toUpperCase()));
+                .anyMatch(role -> allowedRoles.contains(role));
     }
 
     public boolean isOpenEndpoint(Set<String> allowedRoles) {

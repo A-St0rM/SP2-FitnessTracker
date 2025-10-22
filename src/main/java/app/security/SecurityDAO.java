@@ -17,8 +17,13 @@ public class SecurityDAO implements ISecurityDAO {
     @Override
     public User getVerifiedUser(String username, String password) throws ValidationException {
         try(EntityManager em = emf.createEntityManager()){
-            User foundUser = em.find(User.class, username);
-            if(foundUser.verifyPassword(password)){
+
+
+            User foundUser = em.createQuery("SELECT u FROM User u WHERE u.email =: email", User.class)
+                    .setParameter("email", username)
+                    .getSingleResult();
+
+            if(foundUser.checkPassword(password)){
                 return foundUser;
             } else {
                 throw new ValidationException("User or password is incorrect");

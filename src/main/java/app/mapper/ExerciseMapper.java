@@ -12,15 +12,11 @@ public class ExerciseMapper {
         ExerciseDTO exerciseDTO = new ExerciseDTO();
 
         exerciseDTO.setId(exercise.getId());
-        exerciseDTO.setReps(exercise.getReps());
         exerciseDTO.setName(exercise.getName());
         exerciseDTO.setMuscleGroup(exercise.getMuscleGroup());
-
-        if(exercise.getWorkouts() != null){
-            exerciseDTO.setWorkoutList(
-                    exercise.getWorkouts().stream()
-                            .map(workout -> WorkoutMapper.toDto(workout)).toList());
-        }
+        exerciseDTO.setEquipment(exercise.getEquipment());
+        exerciseDTO.setInstructions(exercise.getInstructions());
+        exerciseDTO.setExternalId(exercise.getExternalId());
 
         return exerciseDTO;
     }
@@ -29,18 +25,15 @@ public class ExerciseMapper {
         Exercise exercise = new Exercise();
 
         exercise.setId(exerciseDTO.getId());
-        exercise.setReps(exerciseDTO.getReps());
         exercise.setName(exerciseDTO.getName());
         exercise.setMuscleGroup(exerciseDTO.getMuscleGroup());
-
-        if(exerciseDTO.getWorkoutList() != null){
-            exercise.setWorkouts(
-                    exerciseDTO.getWorkoutList().stream()
-                            .map(workout -> WorkoutMapper.toEntity(workout)).collect(Collectors.toSet()));
-        }
+        exercise.setEquipment(exerciseDTO.getEquipment());
+        exercise.setExternalId(exerciseDTO.getExternalId());
+        exercise.setInstructions(exerciseDTO.getInstructions());
 
         return exercise;
-
     }
 
 }
+
+

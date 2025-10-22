@@ -1,6 +1,7 @@
 package app.security;
 
 import app.config.HibernateConfig;
+import app.entities.User;
 import app.exceptions.ValidationException;
 import app.security.interfaces.ISecurityController;
 import app.security.interfaces.ISecurityDAO;
@@ -9,7 +10,8 @@ import app.services.TokenService;
 import app.utils.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.*;
-import dk.bugelhartmann.*;
+//import dk.bugelhartmann.*;
+import app.dtos.UserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Set;
@@ -28,41 +30,39 @@ public class SecurityController implements ISecurityController {
                 new SecurityDAO(HibernateConfig.getEntityManagerFactory())
         );
     }
-//
-//    public Handler login() {
-//        return ctx -> {
-//            User user = ctx.bodyAsClass(User.class);
-//            try {
-//                UserDTO dto = securityService.login(user.getUsername(), user.getPassword());
-//                String token = tokenService.createToken(dto);
-//
-//                ctx.json(objectMapper.createObjectNode()
-//                                .put("token", token)
-//                                .put("username", dto.getUsername()))
-//                        .status(200);
-//            } catch (ValidationException e) {
-//                ctx.json(objectMapper.createObjectNode()
-//                                .put("msg", "Wrong username or password"))
-//                        .status(401);
-//            }
-//        };
-//    }
-//
-//
-//
-//
-//    public Handler register() {
-//        return ctx -> {
-//            User user = ctx.bodyAsClass(User.class);
-//            UserDTO dto = securityService.register(user.getUsername(), user.getPassword());
-//            String token = tokenService.createToken(dto);
-//
-//            ctx.json(objectMapper.createObjectNode()
-//                            .put("token", token)
-//                            .put("username", dto.getUsername()))
-//                    .status(201);
-//        };
-//    }
+
+    public Handler login() {
+        return ctx -> {
+            User user = ctx.bodyAsClass(User.class);
+            try {
+                UserDTO dto = securityService.login(user.getEmail(), user.getPassword());
+                String token = tokenService.createToken(dto);
+
+                ctx.json(objectMapper.createObjectNode()
+                                .put("token", token)
+                                .put("email", dto.getEmail()))
+                        .status(200);
+            } catch (ValidationException e) {
+                ctx.json(objectMapper.createObjectNode()
+                                .put("msg", "Wrong email or password"))
+                       .status(401);
+            }
+        };
+    }
+
+
+    public Handler register() {
+        return ctx -> {
+            User user = ctx.bodyAsClass(User.class);
+            UserDTO dto = securityService.register(user.getEmail(), user.getPassword());
+            String token = tokenService.createToken(dto);
+
+            ctx.json(objectMapper.createObjectNode()
+                            .put("token", token)
+                            .put("email", dto.getEmail()))
+                    .status(201);
+        };
+    }
 
     @Override
     public Handler authenticate() {
