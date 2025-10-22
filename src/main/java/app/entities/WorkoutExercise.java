@@ -11,10 +11,7 @@ import java.time.DayOfWeek;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "workout_exercises",
-        indexes = {
-                @Index(name="idx_plan_weekday", columnList = "plan_id, weekday")
-        })
+@Table(name = "workout_exercises")
 public class WorkoutExercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
