@@ -7,12 +7,12 @@ import app.entities.Exercise;
 import app.mapper.ExerciseMapper;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ExerciseController {
 
@@ -21,21 +21,21 @@ public class ExerciseController {
     ExerciseDAO exerciseDAO = new ExerciseDAO(emf);
 
     public void getALlExercises(Context ctx){
-        List<ExerciseDTO> exercises = exerciseDAO.getAll().stream()
+        List<ExerciseDTO> exercises = exerciseDAO.readAll().stream()
                 .map(exercise -> ExerciseMapper.toDto(exercise)).toList();
 
         ctx.status(HttpStatus.OK).json(exercises);
 
     }
 
-    public void getById(Context ctx){
-        int id = Integer.parseInt(ctx.pathParam("id"));
+    public void findById(Context ctx){
+        Long id = Long.parseLong(ctx.pathParam("id"));
 
-        Exercise exercise = exerciseDAO.getById(id);
+        Optional<Exercise> exercise = exerciseDAO.findById(id);
 
         if(exercise != null){
             ctx.status(200);
-            ctx.json(ExerciseMapper.toDto(exercise));
+            ctx.json(ExerciseMapper.toDto(exercise.orElse(null)));
             logger.info("Fetched exercise with id: " + id);
 
         } else {
@@ -50,7 +50,7 @@ public class ExerciseController {
         Exercise exerciseCreated = exerciseDAO.create(ExerciseMapper.toEntity(exerciseDTO));
         ctx.status(HttpStatus.CREATED).json(ExerciseMapper.toDto(exerciseCreated));
     }
-
+/*
     public void updateExercise(Context ctx){
         int id = Integer.parseInt(ctx.pathParam("id"));
 
@@ -61,7 +61,6 @@ public class ExerciseController {
                 return;
             }
             exercise.setName(exerciseDTO.getName());
-            exercise.setReps(exerciseDTO.getReps());
             exercise.setMuscleGroup(exerciseDTO.getMuscleGroup());
 
         Exercise updatedExercise = exerciseDAO.update(exercise);
@@ -69,19 +68,19 @@ public class ExerciseController {
         ctx.status(HttpStatus.OK).json(ExerciseMapper.toDto(updatedExercise));
     }
 
+ */
+
     public void deleteExercise(Context ctx){
-        int id = Integer.parseInt(ctx.pathParam("id"));
+        Long id = Long.parseLong(ctx.pathParam("id"));
 
-        boolean deleted = exerciseDAO.delete(id);
+        exerciseDAO.delete(id);
 
-        if(deleted){
+        Optional<Exercise> deleted = exerciseDAO.findById(id);
+
+        if(deleted.isEmpty()){
             ctx.status(HttpStatus.OK).result("Exercise deleted");
         }else {
             ctx.status(HttpStatus.NOT_FOUND).result("Exercise not found");
         }
-    }
-
-    public void addExerciseToWorkout(){
-
     }
 }

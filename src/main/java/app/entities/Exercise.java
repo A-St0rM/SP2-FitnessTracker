@@ -26,5 +26,17 @@ public class Exercise {
 
     @Column(length = 2000)
     private String instructions;
+
+
+    //Exercise
+    //ProgramExercise
+    //WorkoutProgram
+    //WeeklySchedule
+    //User
+
+  //En exercise kan blive brugt i mange ProgramExercise
+
+    //ProgramExercise forbinder WorkoutProgram og Exercise
+
 }
 

@@ -1,5 +1,6 @@
 package app.security;
 
+import app.entities.User;
 import app.exceptions.ValidationException;
 import app.security.interfaces.ISecurityDAO;
 import jakarta.persistence.EntityManager;

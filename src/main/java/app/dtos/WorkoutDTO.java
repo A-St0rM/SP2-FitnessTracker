@@ -18,3 +18,12 @@ public class WorkoutDTO {
     private String description;
     private List<ExerciseDTO> exercises;
 }
+
+
+
+
+
+
+
+
+

@@ -21,3 +21,4 @@ public class WeeklySchedule {
     private WorkoutProgram program;
 }
 
+
