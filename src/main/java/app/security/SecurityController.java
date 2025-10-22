@@ -28,41 +28,41 @@ public class SecurityController implements ISecurityController {
                 new SecurityDAO(HibernateConfig.getEntityManagerFactory())
         );
     }
-
-    public Handler login() {
-        return ctx -> {
-            User user = ctx.bodyAsClass(User.class);
-            try {
-                UserDTO dto = securityService.login(user.getUsername(), user.getPassword());
-                String token = tokenService.createToken(dto);
-
-                ctx.json(objectMapper.createObjectNode()
-                                .put("token", token)
-                                .put("username", dto.getUsername()))
-                        .status(200);
-            } catch (ValidationException e) {
-                ctx.json(objectMapper.createObjectNode()
-                                .put("msg", "Wrong username or password"))
-                        .status(401);
-            }
-        };
-    }
-
-
-
-
-    public Handler register() {
-        return ctx -> {
-            User user = ctx.bodyAsClass(User.class);
-            UserDTO dto = securityService.register(user.getUsername(), user.getPassword());
-            String token = tokenService.createToken(dto);
-
-            ctx.json(objectMapper.createObjectNode()
-                            .put("token", token)
-                            .put("username", dto.getUsername()))
-                    .status(201);
-        };
-    }
+//
+//    public Handler login() {
+//        return ctx -> {
+//            User user = ctx.bodyAsClass(User.class);
+//            try {
+//                UserDTO dto = securityService.login(user.getUsername(), user.getPassword());
+//                String token = tokenService.createToken(dto);
+//
+//                ctx.json(objectMapper.createObjectNode()
+//                                .put("token", token)
+//                                .put("username", dto.getUsername()))
+//                        .status(200);
+//            } catch (ValidationException e) {
+//                ctx.json(objectMapper.createObjectNode()
+//                                .put("msg", "Wrong username or password"))
+//                        .status(401);
+//            }
+//        };
+//    }
+//
+//
+//
+//
+//    public Handler register() {
+//        return ctx -> {
+//            User user = ctx.bodyAsClass(User.class);
+//            UserDTO dto = securityService.register(user.getUsername(), user.getPassword());
+//            String token = tokenService.createToken(dto);
+//
+//            ctx.json(objectMapper.createObjectNode()
+//                            .put("token", token)
+//                            .put("username", dto.getUsername()))
+//                    .status(201);
+//        };
+//    }
 
     @Override
     public Handler authenticate() {

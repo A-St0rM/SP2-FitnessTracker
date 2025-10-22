@@ -1,5 +1,6 @@
 package app.DAO;
 
+import app.config.HibernateConfig;
 import app.entities.User;
 import app.entities.WeeklySchedule;
 import app.entities.WorkoutProgram;
@@ -12,17 +13,14 @@ import java.util.List;
 
 public class ScheduleDAO {
 
-    private static ScheduleDAO instance;
-    private static EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
 
-    private ScheduleDAO() {}
+    public ScheduleDAO(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
 
-    public static ScheduleDAO getInstance(EntityManagerFactory _emf) {
-        if (instance == null) {
-            emf = _emf;
-            instance = new ScheduleDAO();
-        }
-        return instance;
+    public ScheduleDAO() {
+        this(HibernateConfig.getEntityManagerFactory());
     }
 
     public WeeklySchedule upsert(User user, Weekday weekday, WorkoutProgram program) {

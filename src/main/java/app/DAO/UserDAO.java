@@ -1,5 +1,6 @@
 package app.DAO;
 
+import app.config.HibernateConfig;
 import app.entities.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -9,17 +10,14 @@ import java.util.Optional;
 
 public class UserDAO {
 
-    private static UserDAO instance;
-    private static EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
 
-    private UserDAO() {}
+    public UserDAO(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
 
-    public static UserDAO getInstance(EntityManagerFactory _emf) {
-        if (instance == null) {
-            emf = _emf;
-            instance = new UserDAO();
-        }
-        return instance;
+    public UserDAO() {
+        this(HibernateConfig.getEntityManagerFactory());
     }
 
     public Optional<User> findByEmail(String email) {

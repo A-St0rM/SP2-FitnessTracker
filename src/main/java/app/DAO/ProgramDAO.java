@@ -1,5 +1,6 @@
 package app.DAO;
 
+import app.config.HibernateConfig;
 import app.entities.WorkoutProgram;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -9,17 +10,14 @@ import java.util.Optional;
 
 public class ProgramDAO {
 
-    private static ProgramDAO instance;
-    private static EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
 
-    private ProgramDAO() {}
+    public ProgramDAO(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
 
-    public static ProgramDAO getInstance(EntityManagerFactory _emf) {
-        if (instance == null) {
-            emf = _emf;
-            instance = new ProgramDAO();
-        }
-        return instance;
+    public ProgramDAO() {
+        this(HibernateConfig.getEntityManagerFactory());
     }
 
     public WorkoutProgram create(WorkoutProgram program) {

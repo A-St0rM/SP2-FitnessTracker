@@ -1,6 +1,7 @@
 package app.DAO;
 
 
+import app.config.HibernateConfig;
 import app.entities.Exercise;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -8,19 +9,16 @@ import jakarta.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
-public class ExerciseDAO {
+public class ExerciseDAO{
 
-    private static ExerciseDAO instance;
-    private static EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
 
-    private ExerciseDAO() {}
+    public ExerciseDAO(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
 
-    public static ExerciseDAO getInstance(EntityManagerFactory _emf) {
-        if (instance == null) {
-            emf = _emf;
-            instance = new ExerciseDAO();
-        }
-        return instance;
+    public ExerciseDAO() {
+        this(HibernateConfig.getEntityManagerFactory());
     }
 
     public Exercise create(Exercise exercise) {

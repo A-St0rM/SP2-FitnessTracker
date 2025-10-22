@@ -1,6 +1,6 @@
 package app.config;
 
-import app.entities.Exercise;
+import app.entities.*;
 import app.utils.Utils;
 
 import jakarta.persistence.EntityManagerFactory;
@@ -42,6 +42,9 @@ public class HibernateConfig {
     private static void getAnnotationConfiguration(Configuration configuration) {
          configuration.addAnnotatedClass(User.class);
          configuration.addAnnotatedClass(Exercise.class);
+         configuration.addAnnotatedClass(ProgramExercise.class);
+         configuration.addAnnotatedClass(WeeklySchedule.class);
+         configuration.addAnnotatedClass(WorkoutProgram.class);
     }
 
     private static EntityManagerFactory createEMF(boolean forTest) {

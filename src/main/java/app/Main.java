@@ -1,10 +1,7 @@
 package app;
 
-import app.DAO.ExerciseDAO;
-import app.DAO.WorkoutDAO;
 import app.config.ApplicationConfig;
-import app.entities.Exercise;
-import app.entities.Workout;
+
 
 public class Main {
 
