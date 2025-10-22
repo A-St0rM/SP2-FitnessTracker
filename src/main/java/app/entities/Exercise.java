@@ -25,6 +25,6 @@ public class Exercise {
     private String externalId;
 
     @Column(length = 2000)
-    private String instructions;  // beskrivelse fra API
+    private String instructions;
 }
 
