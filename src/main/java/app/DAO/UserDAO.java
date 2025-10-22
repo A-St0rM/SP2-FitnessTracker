@@ -1,39 +1,37 @@
 package app.DAO;
 
+import app.config.HibernateConfig;
 import app.entities.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-
+import jakarta.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
-public class UserDAO implements IDAO<User, Integer>{
+public class UserDAO {
 
-    EntityManagerFactory emf;
+    private final EntityManagerFactory emf;
 
-    public UserDAO(EntityManagerFactory emf)
-    {
+    public UserDAO(EntityManagerFactory emf) {
         this.emf = emf;
     }
-    @Override
-    public List<User> getAll() {
-        try(EntityManager em = emf.createEntityManager()){
-           return em.createQuery("SELECT u FROM User u", User.class).getResultList();
+
+    public UserDAO() {
+        this(HibernateConfig.getEntityManagerFactory());
+    }
+
+    public Optional<User> findByEmail(String email) {
+        try (EntityManager em = emf.createEntityManager()) {
+            TypedQuery<User> q = em.createQuery(
+                    "SELECT u FROM User u WHERE u.email = :email", User.class);
+            q.setParameter("email", email);
+            List<User> result = q.getResultList();
+            return result.stream().findFirst();
         }
     }
 
-    @Override
-    public User getById(Integer id) {
-        try(EntityManager em = emf.createEntityManager()){
-            em.getTransaction().begin();
-            User foundUser = em.find(User.class, id);
-            em.getTransaction().commit();
-            return foundUser;
-        }
-    }
-
-    @Override
     public User create(User user) {
-        try(EntityManager em = emf.createEntityManager()){
+        try (EntityManager em = emf.createEntityManager()) {
             em.getTransaction().begin();
             em.persist(user);
             em.getTransaction().commit();
@@ -41,27 +39,10 @@ public class UserDAO implements IDAO<User, Integer>{
         }
     }
 
-    @Override
-    public User update(User user) {
-        try(EntityManager em = emf.createEntityManager()){
-            em.getTransaction().begin();
-            User updatedUser = em.merge(user);
-            em.getTransaction().commit();
-            return updatedUser;
-        }
-    }
-
-    @Override
-    public boolean delete(Integer id) {
-        try(EntityManager em = emf.createEntityManager()){
-            em.getTransaction().begin();
-            User foundUser = em.find(User.class, id);
-            if(foundUser != null){
-                em.remove(foundUser);
-                em.getTransaction().commit();
-                return true;
-            } else return false;
-
+    public List<User> readAll() {
+        try (EntityManager em = emf.createEntityManager()) {
+            TypedQuery<User> q = em.createQuery("SELECT u FROM User u", User.class);
+            return q.getResultList();
         }
     }
 }

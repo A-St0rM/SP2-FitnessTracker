@@ -1,10 +1,8 @@
 package app.security;
 
-import app.config.HibernateConfig;
-import app.exceptions.EntityNotFoundException;
+import app.entities.User;
 import app.exceptions.ValidationException;
 import app.security.interfaces.ISecurityDAO;
-import app.entities.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
