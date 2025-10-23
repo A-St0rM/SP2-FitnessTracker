@@ -86,6 +86,7 @@ public class ExerciseDAO{
         }
     }
 
+
     public Exercise update(Exercise exercise) {
         try(EntityManager em = emf.createEntityManager()){
             em.getTransaction().begin();
@@ -94,5 +95,26 @@ public class ExerciseDAO{
             return updatedExercise;
         }
     }
+
+    public Optional<Exercise> findByNameMuscleEquipment(String name, String muscle, String equipment) {
+        var em = emf.createEntityManager();
+        try {
+            var q = em.createQuery("""
+            SELECT e FROM Exercise e
+            WHERE LOWER(e.name) = LOWER(:n)
+              AND COALESCE(LOWER(e.muscleGroup),'') = COALESCE(LOWER(:m),'')
+              AND COALESCE(LOWER(e.equipment),'')  = COALESCE(LOWER(:eq),'')
+        """, Exercise.class);
+            q.setParameter("n", name == null ? "" : name.trim());
+            q.setParameter("m", muscle == null ? "" : muscle.trim());
+            q.setParameter("eq", equipment == null ? "" : equipment.trim());
+            var list = q.getResultList();
+            return list.isEmpty() ? Optional.empty() : Optional.of(list.get(0));
+        } finally {
+            em.close();
+        }
+    }
+
+
 }
 
