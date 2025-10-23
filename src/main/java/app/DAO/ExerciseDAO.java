@@ -85,4 +85,14 @@ public class ExerciseDAO{
             em.getTransaction().commit();
         }
     }
+
+    public Exercise update(Exercise exercise) {
+        try(EntityManager em = emf.createEntityManager()){
+            em.getTransaction().begin();
+            Exercise updatedExercise = em.merge(exercise);
+            em.getTransaction().commit();
+            return updatedExercise;
+        }
+    }
 }
+

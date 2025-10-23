@@ -16,6 +16,7 @@ public class ExerciseRoutes {
             get("/{id}", (ctx -> exerciseController.findById(ctx)));
             post("", (ctx -> exerciseController.createExercise(ctx)));
             delete("/{id}", ctx -> exerciseController.deleteExercise(ctx));
+            put("/{id}", ctx -> exerciseController.updateExercise(ctx));
         };
     }
 }
