@@ -33,7 +33,7 @@ public class ExerciseController {
 
         Optional<Exercise> exercise = exerciseDAO.findById(id);
 
-        if(exercise != null){
+        if(exercise.isPresent()){
             ctx.status(200);
             ctx.json(ExerciseMapper.toDto(exercise.orElse(null)));
             logger.info("Fetched exercise with id: " + id);
@@ -50,25 +50,45 @@ public class ExerciseController {
         Exercise exerciseCreated = exerciseDAO.create(ExerciseMapper.toEntity(exerciseDTO));
         ctx.status(HttpStatus.CREATED).json(ExerciseMapper.toDto(exerciseCreated));
     }
-/*
+
     public void updateExercise(Context ctx){
-        int id = Integer.parseInt(ctx.pathParam("id"));
+        Long id = Long.parseLong(ctx.pathParam("id"));
 
         ExerciseDTO exerciseDTO = ctx.bodyAsClass(ExerciseDTO.class);
-        Exercise exercise = exerciseDAO.getById(id);
-            if(exercise == null){
+
+        Optional<Exercise> exercise = exerciseDAO.findById(id);
+            if(exercise.isEmpty()){
                 ctx.status(HttpStatus.NOT_FOUND).result("Exercise not found");
                 return;
             }
-            exercise.setName(exerciseDTO.getName());
-            exercise.setMuscleGroup(exerciseDTO.getMuscleGroup());
 
-        Exercise updatedExercise = exerciseDAO.update(exercise);
+
+            if(!exercise.get().getExternalId().equals(exerciseDTO.getExternalId())){
+                Optional<Exercise> duplicate = exerciseDAO.findByExternalId(exerciseDTO.getExternalId());
+                if(duplicate.isPresent()){
+                    ctx.status(HttpStatus.CONFLICT).result("ExternalId already exists");
+                    return;
+                }
+                exercise.get().setExternalId(exerciseDTO.getExternalId());
+            }
+
+
+
+
+
+            exercise.get().setInstructions(exerciseDTO.getInstructions());
+            exercise.get().setName(exerciseDTO.getName());
+            exercise.get().setEquipment(exerciseDTO.getEquipment());
+            //exercise.setId(exerciseDTO.getId());
+            exercise.get().setMuscleGroup(exerciseDTO.getMuscleGroup());
+            //exercise.setExternalId(exerciseDTO.getExternalId());
+
+        Exercise updatedExercise = exerciseDAO.update(exercise.get());
 
         ctx.status(HttpStatus.OK).json(ExerciseMapper.toDto(updatedExercise));
     }
 
- */
+
 
     public void deleteExercise(Context ctx){
         Long id = Long.parseLong(ctx.pathParam("id"));

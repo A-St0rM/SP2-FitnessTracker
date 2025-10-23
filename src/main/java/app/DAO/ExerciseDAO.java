@@ -86,6 +86,16 @@ public class ExerciseDAO{
         }
     }
 
+
+    public Exercise update(Exercise exercise) {
+        try(EntityManager em = emf.createEntityManager()){
+            em.getTransaction().begin();
+            Exercise updatedExercise = em.merge(exercise);
+            em.getTransaction().commit();
+            return updatedExercise;
+        }
+    }
+
     public Optional<Exercise> findByNameMuscleEquipment(String name, String muscle, String equipment) {
         var em = emf.createEntityManager();
         try {
@@ -105,4 +115,6 @@ public class ExerciseDAO{
         }
     }
 
+
 }
+
