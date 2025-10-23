@@ -16,7 +16,7 @@ public class ExerciseMapper {
         exerciseDTO.setMuscleGroup(exercise.getMuscleGroup());
         exerciseDTO.setEquipment(exercise.getEquipment());
         exerciseDTO.setInstructions(exercise.getInstructions());
-        exerciseDTO.setExternalId(exercise.getExternalId());
+
 
         return exerciseDTO;
     }
@@ -28,7 +28,6 @@ public class ExerciseMapper {
         exercise.setName(exerciseDTO.getName());
         exercise.setMuscleGroup(exerciseDTO.getMuscleGroup());
         exercise.setEquipment(exerciseDTO.getEquipment());
-        exercise.setExternalId(exerciseDTO.getExternalId());
         exercise.setInstructions(exerciseDTO.getInstructions());
 
         return exercise;
