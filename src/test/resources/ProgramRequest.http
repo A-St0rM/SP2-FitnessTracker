@@ -15,3 +15,12 @@ GET http://localhost:7007/api/v1/program
 
 ### DELETE
 DELETE http://localhost:7007/api/v1/program/1
+
+### UPDATE
+PUT http://localhost:7007/api/v1/program/1
+Content-Type: application/json
+
+{
+  "name": " UPDATED: Full Body Strength Program",
+  "description": "UPDATED: A simple 3-day full body routine for beginners."
+}

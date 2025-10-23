@@ -17,6 +17,7 @@ public class ProgramRoutes {
             get("/{id}", (ctx -> programController.findById(ctx)));
             post("", (ctx -> programController.create(ctx)));
             delete("/{id}", ctx -> programController.deleteById(ctx));
+            put("/{id}", (ctx -> programController.update(ctx)));
         };
     }
 

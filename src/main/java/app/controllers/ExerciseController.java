@@ -51,6 +51,7 @@ public class ExerciseController {
         ctx.status(HttpStatus.CREATED).json(ExerciseMapper.toDto(exerciseCreated));
     }
 
+
     public void updateExercise(Context ctx){
         Long id = Long.parseLong(ctx.pathParam("id"));
 

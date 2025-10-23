@@ -6,6 +6,7 @@ import app.entities.ProgramExercise;
 import app.entities.WorkoutProgram;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,18 @@ public class ProgramDAO {
         try (EntityManager em = emf.createEntityManager()) {
             TypedQuery<WorkoutProgram> q = em.createQuery("SELECT p FROM WorkoutProgram p", WorkoutProgram.class);
             return q.getResultList();
+        }
+    }
+
+    public WorkoutProgram update(WorkoutProgram workoutProgram){
+        try(EntityManager em = emf.createEntityManager()) {
+            em.getTransaction().begin();
+            WorkoutProgram foundWorkoutProgram = em.find(WorkoutProgram.class, workoutProgram.getId());
+            if (foundWorkoutProgram != null) {
+                em.merge(foundWorkoutProgram);
+                em.getTransaction().commit();
+                return foundWorkoutProgram;
+            } else throw new EntityNotFoundException("WorkoutProgram could not update. WorkoutProgram not found with id: "+workoutProgram.getId());
         }
     }
 

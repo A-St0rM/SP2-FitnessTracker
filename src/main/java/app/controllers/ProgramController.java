@@ -94,5 +94,44 @@ public class ProgramController {
         }
     }
 
+    public void update(Context ctx){
+        try {
+            Long id = Long.parseLong(ctx.pathParam("id"));
+            WorkoutProgramDTO dto = ctx.bodyAsClass(WorkoutProgramDTO.class);
+
+            WorkoutProgram found = programDAO.findById(id).orElseThrow(
+                    () -> new RuntimeException("Workout program with id "+id+" not found")
+            );
+            found.setName(dto.getName());
+            found.setDescription(dto.getDescription());
+
+            //Fjerner alt fra items listen i vores entity også indsætter vi dem fra DTO'en på så det opdateres
+            found.getItems().clear();
+            for (ProgramExerciseDTO itemDTO : dto.getItems()) {
+                Exercise exercise = exerciseDAO.findById(itemDTO.getExerciseId()).orElseThrow(
+                        () -> new RuntimeException("Exercise not found with id "+ itemDTO)
+                );
+
+                ProgramExercise item = ProgramExercise.builder()
+                        .program(found)
+                        .exercise(exercise)
+                        .orderIndex(itemDTO.getOrderIndex())
+                        .sets(itemDTO.getSets())
+                        .reps(itemDTO.getReps())
+                        .notes(itemDTO.getNotes())
+                        .build();
+
+                found.getItems().add(item);
+            }
+
+            WorkoutProgram updated = programDAO.update(found);
+            ctx.status(200).json(WorkoutProgramMapper.toDTO(updated));
+
+        } catch (Exception e){
+            logger.error(e.getMessage());
+            ctx.status(500).result("Could not update WorkoutProgram "+ e.getMessage());
+        }
+    }
+
 
 }
