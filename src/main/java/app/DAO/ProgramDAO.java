@@ -1,6 +1,8 @@
 package app.DAO;
 
 import app.config.HibernateConfig;
+import app.entities.Exercise;
+import app.entities.ProgramExercise;
 import app.entities.WorkoutProgram;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -48,6 +50,38 @@ public class ProgramDAO {
             WorkoutProgram p = em.find(WorkoutProgram.class, id);
             if (p != null) em.remove(p);
             em.getTransaction().commit();
+        }
+    }
+
+    public ProgramExercise addExerciseToProgram(long programId, Exercise exercise, Integer sets, Integer reps) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            em.getTransaction().begin();
+
+            WorkoutProgram program = em.find(WorkoutProgram.class, programId);
+            if (program == null) {
+                em.getTransaction().rollback();
+                throw new IllegalArgumentException("Program not found: " + programId);
+            }
+
+            // Sørg for at exercise er managed (merge hvis den er detached)
+            Exercise managedExercise = em.contains(exercise) ? exercise : em.merge(exercise);
+
+            ProgramExercise pe = ProgramExercise.builder()
+                    .program(program)
+                    .exercise(managedExercise)
+                    .sets(sets)
+                    .reps(reps)
+                    .build();
+            em.persist(pe);
+
+            em.getTransaction().commit();
+            return pe;
+        } catch (RuntimeException e) {
+            if (em.getTransaction().isActive()) em.getTransaction().rollback();
+            throw e;
+        } finally {
+            em.close();
         }
     }
 }

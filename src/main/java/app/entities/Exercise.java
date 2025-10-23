@@ -21,22 +21,11 @@ public class Exercise {
     private String muscleGroup;
     private String equipment;
 
-    @Column(unique = true, nullable = false)
-    private String externalId;
 
     @Column(length = 2000)
     private String instructions;
 
 
-    //Exercise
-    //ProgramExercise
-    //WorkoutProgram
-    //WeeklySchedule
-    //User
-
-  //En exercise kan blive brugt i mange ProgramExercise
-
-    //ProgramExercise forbinder WorkoutProgram og Exercise
 
 }
 
