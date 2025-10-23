@@ -16,6 +16,7 @@ import jakarta.persistence.EntityManagerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProgramController {
@@ -29,6 +30,10 @@ public class ProgramController {
     public void create(Context ctx){
         try {
             WorkoutProgramDTO workoutProgramDTO = ctx.bodyAsClass(WorkoutProgramDTO.class);
+            //Acceptere null i items listen
+            if(workoutProgramDTO.getItems() == null) {
+                workoutProgramDTO.setItems(new ArrayList<>());
+            }
 
             WorkoutProgram workoutProgram = WorkoutProgramMapper.toEntity(workoutProgramDTO);
 
@@ -98,6 +103,10 @@ public class ProgramController {
         try {
             Long id = Long.parseLong(ctx.pathParam("id"));
             WorkoutProgramDTO dto = ctx.bodyAsClass(WorkoutProgramDTO.class);
+            //Acceptere null i items listen
+            if(dto.getItems() == null) {
+                dto.setItems(new ArrayList<>());
+            }
 
             WorkoutProgram found = programDAO.findById(id).orElseThrow(
                     () -> new RuntimeException("Workout program with id "+id+" not found")

@@ -50,6 +50,14 @@ public class ProgramDAO {
             em.getTransaction().begin();
             WorkoutProgram foundWorkoutProgram = em.find(WorkoutProgram.class, workoutProgram.getId());
             if (foundWorkoutProgram != null) {
+                foundWorkoutProgram.setName(workoutProgram.getName());
+                foundWorkoutProgram.setDescription(workoutProgram.getDescription());
+
+                if(workoutProgram.getItems() != null) {
+                    foundWorkoutProgram.getItems().clear();
+                    foundWorkoutProgram.getItems().addAll(workoutProgram.getItems());
+                }
+
                 em.merge(foundWorkoutProgram);
                 em.getTransaction().commit();
                 return foundWorkoutProgram;
