@@ -1,0 +1,17 @@
+### CREATE Program
+POST http://localhost:7007/api/v1/program
+Content-Type: application/json
+
+{
+  "name": "Full Body Strength Program",
+  "description": "A simple 3-day full body routine for beginners."
+}
+
+### Find by ID
+GET http://localhost:7007/api/v1/program/1
+
+### Find All
+GET http://localhost:7007/api/v1/program
+
+### DELETE
+DELETE http://localhost:7007/api/v1/program/1

@@ -15,7 +15,7 @@ public class WorkoutProgram {
 
     private String description;
 
-    @OneToMany(mappedBy="program", cascade=CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy="program", cascade=CascadeType.ALL, orphanRemoval=true, fetch = FetchType.EAGER)
     @OrderBy("orderIndex ASC")
     private List<ProgramExercise> items = new ArrayList<>();
 }
