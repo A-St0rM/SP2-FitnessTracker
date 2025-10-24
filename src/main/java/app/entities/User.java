@@ -33,6 +33,7 @@ public class User {
         public User(String email, String password, Role role){
             this.email = email;
             this.password = BCrypt.hashpw(password, BCrypt.gensalt(10));
+            this.role = new HashSet<>();
             this.role.add(role);
         }
 

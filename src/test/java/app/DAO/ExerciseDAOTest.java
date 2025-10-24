@@ -47,7 +47,6 @@ class ExerciseDAOTest {
         e.setMuscleGroup("Chest");
         e.setEquipment("Bodyweight");
         e.setInstructions("Stiff body and let your arms push you up and down.");
-        e.setExternalId("002");
 
         //create
         int id =
@@ -84,14 +83,12 @@ class ExerciseDAOTest {
         e.setMuscleGroup("Chest");
         e.setEquipment("Bodyweight");
         e.setInstructions("Stiff body and let your arms push you up and down.");
-        e.setExternalId("001");
 
         Exercise e1 = new Exercise();
         e1.setName("Dance");
         e1.setMuscleGroup("Jump");
         e1.setEquipment("Body");
         e1.setInstructions("Move like crazy");
-        e1.setExternalId("711");
 
         given()
                 .contentType("application/json")
@@ -126,7 +123,6 @@ class ExerciseDAOTest {
         e.setMuscleGroup("Chest");
         e.setEquipment("Bodyweight");
         e.setInstructions("Stiff body and let your arms push you up and down.");
-        e.setExternalId("002");
 
         //create
         int id =
@@ -171,7 +167,6 @@ class ExerciseDAOTest {
         e.setMuscleGroup("Chest");
         e.setEquipment("Bodyweight");
         e.setInstructions("Stiff body and let your arms push you up and down.");
-        e.setExternalId("004");
 
         //create
         int id =

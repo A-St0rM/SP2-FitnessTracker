@@ -12,6 +12,7 @@ import static io.javalin.apibuilder.ApiBuilder.path;
 public class Route {
 
     private SecurityRoute securityRoute = new SecurityRoute();
+    private UserRoutes userRoutes = new UserRoutes();
     private ExerciseRoutes exerciseRoutes = new ExerciseRoutes();
     private ExternalExerciseRoutes externalExerciseRoutes = new ExternalExerciseRoutes();
     private ProgramRoutes programRoutes = new ProgramRoutes();
@@ -24,6 +25,7 @@ public class Route {
             path("/exercise", exerciseRoutes.getRoutes());
             path("/exercise", externalExerciseRoutes.getRoutes());
             path("/program", programRoutes.getRoutes());
+            path("/user", userRoutes.getRoutes());
         };
     }
 

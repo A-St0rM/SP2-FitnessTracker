@@ -59,7 +59,9 @@ public class SecurityController implements ISecurityController {
 
             ctx.json(objectMapper.createObjectNode()
                             .put("token", token)
-                            .put("email", dto.getEmail()))
+                            .put("email", dto.getEmail())
+                            .put("id", dto.getId()))
+
                     .status(201);
         };
     }

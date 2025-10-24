@@ -63,7 +63,7 @@ public class ExerciseController {
                 return;
             }
 
-
+                /*
             if(!exercise.get().getExternalId().equals(exerciseDTO.getExternalId())){
                 Optional<Exercise> duplicate = exerciseDAO.findByExternalId(exerciseDTO.getExternalId());
                 if(duplicate.isPresent()){
@@ -73,9 +73,7 @@ public class ExerciseController {
                 exercise.get().setExternalId(exerciseDTO.getExternalId());
             }
 
-
-
-
+                 */
 
             exercise.get().setInstructions(exerciseDTO.getInstructions());
             exercise.get().setName(exerciseDTO.getName());
@@ -88,7 +86,6 @@ public class ExerciseController {
 
         ctx.status(HttpStatus.OK).json(ExerciseMapper.toDto(updatedExercise));
     }
-
 
 
     public void deleteExercise(Context ctx){
