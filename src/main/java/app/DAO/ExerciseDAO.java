@@ -44,16 +44,6 @@ public class ExerciseDAO{
         }
     }
 
-    public Optional<Exercise> findByExternalId(String externalId) {
-        try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Exercise> q = em.createQuery(
-                    "SELECT e FROM Exercise e WHERE e.externalId = :externalId", Exercise.class);
-            q.setParameter("externalId", externalId);
-            List<Exercise> result = q.getResultList();
-            return result.stream().findFirst();
-        }
-    }
-
 
     public List<Exercise> search(String query, int limit) {
         try (EntityManager em = emf.createEntityManager()) {

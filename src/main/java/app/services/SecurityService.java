@@ -34,7 +34,14 @@ public class SecurityService {
                 .stream()
                 .collect(Collectors.toSet());
 
-        return new UserDTO(createdUser.getEmail(), roles);
+        UserDTO userDTO = new UserDTO();
+
+        userDTO.setEmail(createdUser.getEmail());
+        userDTO.setId(createdUser.getId());
+        userDTO.setPassword(createdUser.getPassword());
+        userDTO.setRoles(createdUser.getRole());
+
+        return userDTO;
     }
 /*
     public void assignRole(String username, String role) {
