@@ -14,11 +14,11 @@ import static org.hamcrest.Matchers.*;
 
 class ProgramDAOTest {
 
+
+
     public static EntityManagerFactory emf;
     public static ApplicationConfig app;
     public static ProgramDAO programDAO;
-
-
 
     @BeforeAll
     static void startUp() {
