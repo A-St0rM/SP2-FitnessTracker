@@ -16,6 +16,7 @@ public class Route {
     private ExerciseRoutes exerciseRoutes = new ExerciseRoutes();
     private ExternalExerciseRoutes externalExerciseRoutes = new ExternalExerciseRoutes();
     private ProgramRoutes programRoutes = new ProgramRoutes();
+    private final ScheduleRoutes scheduleRoutes = new ScheduleRoutes();
     private static ObjectMapper jsonMapper = new Utils().getObjectMapper();
 
     public EndpointGroup getRoutes() {
@@ -26,6 +27,7 @@ public class Route {
             path("/exercise", externalExerciseRoutes.getRoutes());
             path("/program", programRoutes.getRoutes());
             path("/user", userRoutes.getRoutes());
+            path("/schedule", scheduleRoutes.getRoutes());
         };
     }
 

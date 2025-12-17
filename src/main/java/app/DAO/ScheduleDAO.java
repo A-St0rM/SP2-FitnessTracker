@@ -28,34 +28,39 @@ public class ScheduleDAO {
             em.getTransaction().begin();
 
             TypedQuery<WeeklySchedule> q = em.createQuery(
-                    "SELECT s FROM WeeklySchedule s WHERE s.user = :user AND s.weekday = :weekday", WeeklySchedule.class);
+                    "SELECT s FROM WeeklySchedule s WHERE s.user = :user AND s.weekday = :weekday",
+                    WeeklySchedule.class
+            );
             q.setParameter("user", user);
             q.setParameter("weekday", weekday);
-            List<WeeklySchedule> result = q.getResultList();
+            List<WeeklySchedule> existing = q.getResultList();
 
-            WeeklySchedule schedule;
-            if (result.isEmpty()) {
-                schedule = WeeklySchedule.builder()
-                        .user(user)
-                        .weekday(weekday)
-                        .program(program)
-                        .build();
-                em.persist(schedule);
+            WeeklySchedule s;
+            if (existing.isEmpty()) {
+                s = new WeeklySchedule();
+                s.setUser(user);
+                s.setWeekday(weekday);
+                s.setProgram(program);
+                em.persist(s);
             } else {
-                schedule = result.get(0);
-                schedule.setProgram(program);
-                em.merge(schedule);
+                s = existing.get(0);
+                s.setProgram(program);
+                em.merge(s);
             }
 
             em.getTransaction().commit();
-            return schedule;
+            return s;
         }
     }
 
     public List<WeeklySchedule> findByUser(User user) {
         try (EntityManager em = emf.createEntityManager()) {
             TypedQuery<WeeklySchedule> q = em.createQuery(
-                    "SELECT s FROM WeeklySchedule s JOIN FETCH s.program WHERE s.user = :user", WeeklySchedule.class);
+                    "SELECT s FROM WeeklySchedule s " +
+                            "JOIN FETCH s.program " +
+                            "WHERE s.user = :user ORDER BY s.weekday",
+                    WeeklySchedule.class
+            );
             q.setParameter("user", user);
             return q.getResultList();
         }

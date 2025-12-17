@@ -75,6 +75,10 @@ public class ProgramDAO {
     }
 
     public ProgramExercise addExerciseToProgram(long programId, Exercise exercise, Integer sets, Integer reps) {
+        if (sets == null || sets <= 0 || reps == null || reps <= 0) {
+            throw new IllegalArgumentException("sets and reps must be positive");
+        }
+
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -85,16 +89,32 @@ public class ProgramDAO {
                 throw new IllegalArgumentException("Program not found: " + programId);
             }
 
-            // Sørg for at exercise er managed (merge hvis den er detached)
             Exercise managedExercise = em.contains(exercise) ? exercise : em.merge(exercise);
 
-            ProgramExercise pe = ProgramExercise.builder()
-                    .program(program)
-                    .exercise(managedExercise)
-                    .sets(sets)
-                    .reps(reps)
-                    .build();
-            em.persist(pe);
+            //Undgå duplicates:
+            TypedQuery<ProgramExercise> q = em.createQuery(
+                    "SELECT pe FROM ProgramExercise pe WHERE pe.program = :program AND pe.exercise = :exercise",
+                    ProgramExercise.class
+            );
+            q.setParameter("program", program);
+            q.setParameter("exercise", managedExercise);
+            List<ProgramExercise> existing = q.getResultList();
+
+            ProgramExercise pe;
+            if (!existing.isEmpty()) {
+                pe = existing.get(0);
+                pe.setSets(sets);
+                pe.setReps(reps);
+                em.merge(pe);
+            } else {
+                pe = ProgramExercise.builder()
+                        .program(program)
+                        .exercise(managedExercise)
+                        .sets(sets)
+                        .reps(reps)
+                        .build();
+                em.persist(pe);
+            }
 
             em.getTransaction().commit();
             return pe;
@@ -105,5 +125,6 @@ public class ProgramDAO {
             em.close();
         }
     }
+
 }
 
