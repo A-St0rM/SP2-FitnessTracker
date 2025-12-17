@@ -4,8 +4,8 @@ POST http://localhost:7007/api/v1/auth/register
 Content-Type: application/json
 
 {
-  "email": "demo@mail.com",
-  "password": "democode123"
+  "email": "demo@maillll.com",
+  "password": "democode1233333"
 
 }
 
@@ -14,12 +14,12 @@ POST http://localhost:7007/api/v1/auth/login
 Content-Type: application/json
 
 {
-  "email": "demo@mail.com",
-  "password": "democode123"
+  "email": "demo@maillll.com",
+  "password": "democode1233333"
 
 }
 
 ###
 GET http://localhost:7007/api/v1/protected/user_demo
-Authorization: Bearer eYJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIkFsaXNzYSBBbmRyZWEgU3Rvcm1cIiIsInN1YiI6InVzZXIxIiwiZXhwIjoxNzU5ODIzMTAzLCJyb2xlcyI6IlVzZXIiLCJ1c2VybmFtZSI6InVzZXIxIn0.rz-RClzD45SHR9GnJKeULhmvnMbFmYK4OYqyG1eJg6I
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIkQuQS5BXCIiLCJzdWIiOiJkZW1vQG1haWxsbGwuY29tIiwiZXhwIjoxNzY0ODUwMTg5LCJlbWFpbCI6ImRlbW9AbWFpbGxsbC5jb20iLCJyb2xlcyI6IlVTRVIifQ.8BEC7Smt47-b43RuXLd7tu1ULYECmltsA6PHMUZ30RE
 

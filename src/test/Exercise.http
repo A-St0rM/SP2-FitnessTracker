@@ -2,16 +2,18 @@
 GET https://examples.http-client.intellij.net/get
     ?generated-in=IntelliJ IDEA
 
+### Get all exercises
+GET http://localhost:7007/api/v1/exercise
+
 ### Create exercise
 POST http://localhost:7007/api/v1/exercise
 Content-Type: application/json
 
 {
-"name": "training",
-  "muscleGroup": "chest",
+"name": "nbv",
+  "muscleGroup": "lowerbody",
   "equipment": "bar & bench",
-  "instructions": "down and push",
-  "externalId": "1"
+  "instructions": "down and push"
 }
 
 ### Get exercise by id

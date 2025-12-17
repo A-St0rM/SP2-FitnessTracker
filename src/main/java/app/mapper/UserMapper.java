@@ -5,7 +5,6 @@ import app.entities.User;
 
 public class UserMapper {
 
-
     public static UserDTO toDto(User user){
         UserDTO userDTO = new UserDTO();
 

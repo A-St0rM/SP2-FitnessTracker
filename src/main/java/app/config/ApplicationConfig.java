@@ -5,6 +5,7 @@ import app.routes.Route;
 import app.security.SecurityController;
 import io.javalin.Javalin;
 import io.javalin.config.JavalinConfig;
+import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.http.InternalServerErrorResponse;
 import org.slf4j.Logger;
@@ -19,6 +20,8 @@ public class ApplicationConfig {
     private static final Logger debugLogger = LoggerFactory.getLogger("app");
     private static SecurityController securityController = new SecurityController();
     private static ApplicationConfig appConfig;
+    private static Javalin app;
+
 
     public static void configuration(JavalinConfig config){
         config.showJavalinBanner = false;
@@ -29,7 +32,7 @@ public class ApplicationConfig {
 
     public static ApplicationConfig startServer(int port) {
         routes = new Route();
-        var app = Javalin.create(ApplicationConfig::configuration);
+        app = Javalin.create(ApplicationConfig::configuration);
 
         logger.info("Java application started!");
 
@@ -61,8 +64,22 @@ public class ApplicationConfig {
             throw new InternalServerErrorResponse("Off limits!", msg);
         });
 
+        app.beforeMatched(ctx -> {
+            if (ctx.method().name().equals("OPTIONS")) {
+                ctx.status(200);
+                return;
+            }
+        });
+
         app.beforeMatched(securityController.authenticate());
         app.beforeMatched(securityController.authorize());
+
+        app.before(ctx -> setCorsHeaders(ctx));
+
+        app.options("/*", ctx -> { // Burde nok ikke være nødvendig?
+            setCorsHeaders(ctx);
+            ctx.status(200);
+        });
 
         app.start(port);
         return appConfig;
@@ -70,5 +87,23 @@ public class ApplicationConfig {
 
     public static void stopServer(Javalin app) {
         app.stop();
+    }
+
+
+    public ApplicationConfig setCORS() {
+        app.before(ctx -> {
+            setCorsHeaders(ctx);
+        });
+        app.options("/*", ctx -> { // Burde nok ikke være nødvendig?
+            setCorsHeaders(ctx);
+        });
+        return appConfig;
+    }
+
+    private static void setCorsHeaders(Context ctx) {
+        ctx.header("Access-Control-Allow-Origin", "*");
+        ctx.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+        ctx.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        ctx.header("Access-Control-Allow-Credentials", "true");
     }
 }
