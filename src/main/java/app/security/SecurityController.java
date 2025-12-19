@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.http.*;
 //import dk.bugelhartmann.*;
 import app.dtos.UserDTO;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Set;
@@ -135,6 +136,11 @@ public class SecurityController implements ISecurityController {
             throw new UnauthorizedResponse("Invalid user or token"); // UnauthorizedResponse is javalin 6 specific but response is not json!
         }
         return verifiedTokenUser;
+    }
+
+    // Health check for the API. Used in deployment
+    public void healthCheck(@NotNull Context ctx) {
+        ctx.status(200).json("{\"msg\": \"API is up and running\"}");
     }
 
 }

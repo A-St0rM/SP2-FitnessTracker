@@ -1,6 +1,7 @@
 package app.config;
 
 import app.Main;
+import app.enums.Role;
 import app.routes.Route;
 import app.security.SecurityController;
 import io.javalin.Javalin;
@@ -24,6 +25,9 @@ public class ApplicationConfig {
 
 
     public static void configuration(JavalinConfig config){
+
+
+
         config.showJavalinBanner = false;
         config.bundledPlugins.enableRouteOverview("/routes");
         config.router.contextPath = "/api/v1"; // base path for all endpoints

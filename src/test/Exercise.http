@@ -10,10 +10,10 @@ POST http://localhost:7007/api/v1/exercise
 Content-Type: application/json
 
 {
-"name": "nbv",
+"name": "bicep curls",
   "muscleGroup": "lowerbody",
-  "equipment": "bar & bench",
-  "instructions": "down and push"
+  "equipment": "weights and bench",
+  "instructions": "make your hand touch your shoulder"
 }
 
 ### Get exercise by id

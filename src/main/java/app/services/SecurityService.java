@@ -52,7 +52,8 @@ public class SecurityService {
 
     public boolean userHasAllowedRole(UserDTO user, Set<String> allowedRoles) {
         return user.getRoles().stream()
-                .anyMatch(role -> allowedRoles.contains(role));
+                .map(role -> role.name())   // 🔑 konverter Role → String
+                .anyMatch(allowedRoles::contains);
     }
 
     public boolean isOpenEndpoint(Set<String> allowedRoles) {
