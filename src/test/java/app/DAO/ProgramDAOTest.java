@@ -3,8 +3,10 @@ package app.DAO;
 import app.config.ApplicationConfig;
 import app.config.HibernateConfig;
 import app.entities.WorkoutProgram;
+import io.javalin.Javalin;
 import io.restassured.RestAssured;
 import jakarta.persistence.EntityManagerFactory;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,14 +19,14 @@ class ProgramDAOTest {
 
 
     public static EntityManagerFactory emf;
-    public static ApplicationConfig app;
+    public static Javalin app;
     public static ProgramDAO programDAO;
 
     @BeforeAll
     static void startUp() {
         emf = HibernateConfig.getEntityManagerFactoryForTest();
-        app = ApplicationConfig.startServer(7076);
-        RestAssured.baseURI = "http://localhost:7076/api/v1";
+        app = ApplicationConfig.startServer(0);
+        RestAssured.baseURI = "http://localhost:"+app.port()+"/api/v1";
         programDAO = new ProgramDAO(emf);
     }
 

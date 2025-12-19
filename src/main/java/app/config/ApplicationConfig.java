@@ -34,7 +34,7 @@ public class ApplicationConfig {
         config.router.apiBuilder(routes.getRoutes());
     }
 
-    public static ApplicationConfig startServer(int port) {
+    public static Javalin startServer(int port) {
         routes = new Route();
         app = Javalin.create(ApplicationConfig::configuration);
 
@@ -86,7 +86,7 @@ public class ApplicationConfig {
         });
 
         app.start(port);
-        return appConfig;
+        return app;
     }
 
     public static void stopServer(Javalin app) {

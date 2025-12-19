@@ -6,6 +6,7 @@ import app.config.HibernateConfig;
 import app.dtos.UserDTO;
 import app.entities.User;
 import app.enums.Role;
+import io.javalin.Javalin;
 import io.restassured.RestAssured;
 import jakarta.persistence.EntityManagerFactory;
 import org.junit.jupiter.api.BeforeAll;
@@ -22,13 +23,13 @@ class UserControllerTest {
 
     public static EntityManagerFactory emf;
     public static ExerciseDAO exerciseDAO;
-    public static ApplicationConfig app;
+    public static Javalin app;
 
     @BeforeAll
     static void startUp(){
         emf = HibernateConfig.getEntityManagerFactoryForTest();
-        app = ApplicationConfig.startServer(7076);
-        RestAssured.baseURI = "http://localhost:7076/api/v1";
+        app = ApplicationConfig.startServer(0);
+        RestAssured.baseURI = "http://localhost:"+app.port()+"/api/v1";
         exerciseDAO = new ExerciseDAO(emf);
     }
 

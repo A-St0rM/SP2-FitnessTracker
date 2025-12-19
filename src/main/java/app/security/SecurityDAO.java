@@ -5,6 +5,7 @@ import app.exceptions.ValidationException;
 import app.security.interfaces.ISecurityDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 
 
 public class SecurityDAO implements ISecurityDAO {
@@ -23,11 +24,12 @@ public class SecurityDAO implements ISecurityDAO {
                     .setParameter("email", username)
                     .getSingleResult();
 
-            if(foundUser.checkPassword(password)){
-                return foundUser;
-            } else {
+            if(!foundUser.checkPassword(password)){
                 throw new ValidationException("User or password is incorrect");
-            }
+            } return foundUser;
+
+        } catch(NoResultException e){
+            throw new ValidationException("User or password incorrect");
         }
     }
 
