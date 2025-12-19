@@ -6,10 +6,8 @@ import app.entities.Exercise;
 import io.javalin.Javalin;
 import io.restassured.RestAssured;
 import jakarta.persistence.EntityManagerFactory;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+
 import static io.restassured.RestAssured.given;
 
 
@@ -24,15 +22,17 @@ import static org.junit.jupiter.api.Assertions.*;
 class ExerciseDAOTest {
     public static EntityManagerFactory emf;
     public static ExerciseDAO exerciseDAO;
-    public static ApplicationConfig app;
+    public static Javalin app;
 
     @BeforeAll
     static void startUp(){
         emf = HibernateConfig.getEntityManagerFactoryForTest();
-        app = ApplicationConfig.startServer(7076);
-        RestAssured.baseURI = "http://localhost:7076/api/v1";
+        app = ApplicationConfig.startServer(0);
+        RestAssured.baseURI = "http://localhost:"+app.port()+"/api/v1";
         exerciseDAO = new ExerciseDAO(emf);
     }
+
+
 
     @BeforeEach
     void cleanDatabase() {
