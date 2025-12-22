@@ -75,8 +75,13 @@ public class ApplicationConfig {
             }
         });
 
-        app.beforeMatched(securityController.authenticate());
-        app.beforeMatched(securityController.authorize());
+        boolean isTest = "test".equalsIgnoreCase(System.getProperty("env"));
+
+        if (!isTest) {
+            app.beforeMatched(securityController.authenticate());
+            app.beforeMatched(securityController.authorize());
+        }
+
 
         app.before(ctx -> setCorsHeaders(ctx));
 

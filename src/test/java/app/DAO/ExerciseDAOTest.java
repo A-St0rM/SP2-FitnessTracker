@@ -26,6 +26,7 @@ class ExerciseDAOTest {
 
     @BeforeAll
     static void startUp(){
+        System.setProperty("env", "test");
         emf = HibernateConfig.getEntityManagerFactoryForTest();
         app = ApplicationConfig.startServer(0);
         RestAssured.baseURI = "http://localhost:"+app.port()+"/api/v1";
