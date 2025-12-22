@@ -24,6 +24,7 @@ public class ApplicationConfig {
     private static Javalin app;
 
 
+
     public static void configuration(JavalinConfig config){
 
 
@@ -33,6 +34,11 @@ public class ApplicationConfig {
         config.router.contextPath = "/api/v1"; // base path for all endpoints
         config.router.apiBuilder(routes.getRoutes());
     }
+
+    private static boolean isTest() {
+        return "test".equalsIgnoreCase(System.getProperty("env"));
+    }
+
 
     public static Javalin startServer(int port) {
         routes = new Route();
@@ -78,6 +84,7 @@ public class ApplicationConfig {
         boolean isTest = "test".equalsIgnoreCase(System.getProperty("env"));
 
         if (!isTest) {
+            securityController = new SecurityController(); // kun i non-test
             app.beforeMatched(securityController.authenticate());
             app.beforeMatched(securityController.authorize());
         }
