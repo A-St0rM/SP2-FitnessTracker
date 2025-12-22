@@ -53,7 +53,9 @@ public class HibernateConfig {
             Properties props = new Properties();
             // Set the properties
             setBaseProperties(props);
-            if (forTest) {
+            boolean isTestRun =
+                    forTest || "true".equalsIgnoreCase(System.getProperty("test"));
+            if (isTestRun) {
                 props = setTestProperties(props);
             } else if (System.getenv("DEPLOYED") != null) {
                 setDeployedProperties(props);
