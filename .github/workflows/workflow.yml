@@ -19,7 +19,7 @@ jobs:
           distribution: 'corretto'
 
       - name: Build with Maven
-        run: mvn --batch-mode clean package
+        run: mvn --batch-mode clean package -Dtest=true
         env:
           API_NINJAS_KEY: ${{ secrets.API_NINJAS_KEY }}
 
