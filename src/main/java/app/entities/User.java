@@ -26,24 +26,22 @@ public class User {
 
     public User(String email, String password){
         this.email = email;
-        this.password = BCrypt.hashpw(password, BCrypt.gensalt(10));
+        this.password = password;
         this.role.add(Role.USER);
         }
 
         public User(String email, String password, Role role){
             this.email = email;
-            this.password = BCrypt.hashpw(password, BCrypt.gensalt(10));
+            this.password = password;
             this.role = new HashSet<>();
             this.role.add(role);
         }
 
         public boolean checkPassword(String candidate){
-        if(BCrypt.checkpw(candidate,password)){
-            System.out.println("Passwords matches");
-            return true;
-        } else {
-            System.out.println("Passwords doesn't match!");
+        if(candidate == null || password == null){
             return false;
+        } else {
+            return BCrypt.checkpw(candidate, password);
         }
         }
 
