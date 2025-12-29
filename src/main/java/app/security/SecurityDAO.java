@@ -1,11 +1,13 @@
 package app.security;
 
 import app.entities.User;
+import app.enums.Role;
 import app.exceptions.ValidationException;
 import app.security.interfaces.ISecurityDAO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
+import org.mindrot.jbcrypt.BCrypt;
 
 
 public class SecurityDAO implements ISecurityDAO {
@@ -36,7 +38,9 @@ public class SecurityDAO implements ISecurityDAO {
     @Override
     public User createUser(String username, String password) {
         try(EntityManager em = emf.createEntityManager()){
-            User user = new User(username, password);
+            String hashedpw = BCrypt.hashpw(password, BCrypt.gensalt(10));
+            User user = new User(username, hashedpw);
+            user.getRole().add(Role.USER);
             em.getTransaction().begin();
             em.persist(user);
             em.getTransaction().commit();
