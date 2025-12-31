@@ -91,14 +91,15 @@ public class ExerciseController {
     public void deleteExercise(Context ctx){
         Long id = Long.parseLong(ctx.pathParam("id"));
 
-        exerciseDAO.delete(id);
+
 
         Optional<Exercise> deleted = exerciseDAO.findById(id);
 
         if(deleted.isEmpty()){
-            ctx.status(HttpStatus.OK).result("Exercise deleted");
-        }else {
-            ctx.status(HttpStatus.NOT_FOUND).result("Exercise not found");
+            ctx.status(HttpStatus.NOT_FOUND);
         }
+
+        exerciseDAO.delete(id);
+        ctx.status(HttpStatus.NO_CONTENT);
     }
 }

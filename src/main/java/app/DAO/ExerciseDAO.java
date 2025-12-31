@@ -62,7 +62,7 @@ public class ExerciseDAO{
 
     public List<Exercise> readAll() {
         try (EntityManager em = emf.createEntityManager()) {
-            TypedQuery<Exercise> q = em.createQuery("SELECT e FROM Exercise e", Exercise.class);
+            TypedQuery<Exercise> q = em.createQuery("SELECT e FROM Exercise e ORDER BY id ASC", Exercise.class);
             return q.getResultList();
         }
     }
