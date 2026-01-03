@@ -144,7 +144,7 @@ class ExerciseDAOTest {
                 .when()
                 .delete("/exercise/" + id)
                 .then()
-                .statusCode(200)
+                .statusCode(204)
                 .body(equalTo("Exercise deleted"));
 
         //getById
