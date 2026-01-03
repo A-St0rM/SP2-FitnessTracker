@@ -4,8 +4,8 @@ FROM amazoncorretto:17-alpine
 # Install curl on Alpine
 RUN apk update && apk add --no-cache curl
 
-# Copy the jar file into the image
-COPY target/*.jar /app.jar
+# Copy the fat JAR explicitly
+COPY target/SP2-FitnessTracker-1.0-SNAPSHOT-shaded.jar /app.jar
 
 # Expose the port your app runs on
 EXPOSE 7007
