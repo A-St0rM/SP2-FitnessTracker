@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Created-By: Maven JAR Plugin 3.3.0
+Build-Jdk-Spec: 17
+Class-Path: jackson-databind-2.18.3.jar jackson-annotations-2.18.3.jar j
+ ackson-core-2.18.3.jar jbcrypt-0.4.jar javalin-6.5.0.jar jetty-server-1
+ 1.0.24.jar jetty-http-11.0.24.jar jetty-util-11.0.24.jar jetty-io-11.0.
+ 24.jar jetty-jakarta-servlet-api-5.0.2.jar websocket-jetty-server-11.0.
+ 24.jar jetty-servlet-11.0.24.jar jetty-security-11.0.24.jar jetty-webap
+ p-11.0.24.jar jetty-xml-11.0.24.jar websocket-jetty-api-11.0.24.jar web
+ socket-jetty-common-11.0.24.jar websocket-core-common-11.0.24.jar webso
+ cket-servlet-11.0.24.jar websocket-core-server-11.0.24.jar kotlin-stdli
+ b-jdk8-1.9.25.jar kotlin-stdlib-1.9.25.jar kotlin-stdlib-jdk7-1.9.25.ja
+ r postgresql-42.7.5.jar checker-qual-3.48.3.jar hibernate-core-6.6.6.Fi
+ nal.jar jakarta.persistence-api-3.1.0.jar jakarta.transaction-api-2.0.1
+ .jar jboss-logging-3.5.0.Final.jar hibernate-commons-annotations-7.0.3.
+ Final.jar jandex-3.2.0.jar classmate-1.5.1.jar byte-buddy-1.15.11.jar j
+ akarta.xml.bind-api-4.0.0.jar jakarta.activation-api-2.1.0.jar jaxb-run
+ time-4.0.2.jar jaxb-core-4.0.2.jar angus-activation-2.0.0.jar txw2-4.0.
+ 2.jar istack-commons-runtime-4.1.1.jar jakarta.inject-api-2.0.1.jar ant
+ lr4-runtime-4.13.0.jar jackson-datatype-jsr310-2.18.3.jar TokenSecurity
+ -1.0.2.jar nimbus-jose-jwt-9.0.1.jar jcip-annotations-1.0-1.jar annotat
+ ions-17.0.0.jar jdbc-1.20.4.jar database-commons-1.20.4.jar logback-cla
+ ssic-1.5.16.jar logback-core-1.5.16.jar slf4j-api-2.0.16.jar
+Main-Class: app.Main
+
