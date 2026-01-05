@@ -18,12 +18,21 @@ import java.util.List;
         private static final String BASE_URL = "https://api.api-ninjas.com/v1/exercises";
         private final HttpClient client = HttpClient.newHttpClient();
         private final ObjectMapper mapper;
-        private final String apiKey = Utils.getPropertyValue("API_NINJAS_KEY", "config.properties");
+        private final String apiKey;
 
         public ExternalExerciseService(ObjectMapper mapper) {
             this.mapper = mapper;
+
+            boolean isDeployed = "true".equalsIgnoreCase(System.getenv("DEPLOYED"));
+
+            if (isDeployed) {
+                apiKey = System.getenv("API_NINJAS_KEY");
+            } else {
+                apiKey = Utils.getPropertyValue("API_NINJAS_KEY", "config.properties");
+            }
+
             if (apiKey == null || apiKey.isBlank()) {
-                throw new IllegalStateException("Missing env var API_NINJAS_KEY");
+                throw new IllegalStateException("Missing API_NINJAS_KEY");
             }
         }
 
