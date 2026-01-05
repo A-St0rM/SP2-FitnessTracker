@@ -85,8 +85,11 @@ public class ApplicationConfig {
 
         if (!isTest) {
             securityController = new SecurityController(); // kun i non-test
+            app.beforeMatched(ctx -> {
+                if (ctx.method().name().equals("OPTIONS")){ return;};
             app.beforeMatched(securityController.authenticate());
             app.beforeMatched(securityController.authorize());
+            });
         }
 
 
