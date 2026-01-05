@@ -14,6 +14,14 @@ public class Utils {
 
     public static String getPropertyValue(String propName, String resourceName)  {
         try (InputStream is = Utils.class.getClassLoader().getResourceAsStream(resourceName)) {
+
+            if (is == null) {
+                throw new ApiException(
+                        500,
+                        "Resource '" + resourceName + "' not found on classpath. " +
+                                "If running in Docker, use environment variables instead."
+                );
+            }
             Properties prop = new Properties();
             prop.load(is);
 

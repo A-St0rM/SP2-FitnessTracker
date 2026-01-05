@@ -54,10 +54,11 @@ public class HibernateConfig {
             // Set the properties
             setBaseProperties(props);
             boolean isTestRun = forTest || "test".equalsIgnoreCase(System.getProperty("env"));
+            boolean isDeployed = "true".equalsIgnoreCase(System.getenv("DEPLOYED"));
             if (isTestRun) {
                 props = setTestProperties(props);
-            } else if (System.getenv("DEPLOYED") != null) {
-                setDeployedProperties(props);
+            } else if (isDeployed) {
+                props = setDeployedProperties(props);
             } else {
                 props = setDevProperties(props);
             }
@@ -73,6 +74,7 @@ public class HibernateConfig {
         }
         catch (Throwable ex) {
             System.err.println("Initial SessionFactory creation failed." + ex);
+            ex.printStackTrace();
             throw new ExceptionInInitializerError(ex);
         }
     }
