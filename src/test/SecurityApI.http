@@ -19,6 +19,16 @@ Content-Type: application/json
 
 }
 
+### Admin login
+POST http://localhost:7007/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin",
+  "password": "admin"
+
+}
+
 ###
 GET http://localhost:7007/api/v1/protected/user_demo
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIkQuQS5BXCIiLCJzdWIiOiJkZW1vQG1haWxsbGwuY29tIiwiZXhwIjoxNzY1OTk2NTg2LCJlbWFpbCI6ImRlbW9AbWFpbGxsbC5jb20iLCJyb2xlcyI6IlVTRVIifQ.PflIOAtuUoF7YgokToKwMl9eAvXGHArYjYJMCWF2w8M
@@ -26,5 +36,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJcIkQuQS5BXCIiLCJzdWIiOiJkZ
 
 ###
 GET http://localhost:7007/api/v1/auth/healthcheck
+
+### Get all users
+GET http://localhost:7007/api/v1/auth/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJELkEuQSIsInN1YiI6ImFkbWluIiwiZXhwIjoxNzY3ODc4OTk1LCJlbWFpbCI6ImFkbWluIiwicm9sZXMiOiJBRE1JTiJ9.iZWdQUwFuWk-TIYEgLyza_DuNbN0hLUkpqdGpdLwZcg
+
+### Delete user
+DELETE http://localhost:7007/api/v1/auth/users/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJELkEuQSIsInN1YiI6ImFkbWluIiwiZXhwIjoxNzY3ODc4OTk1LCJlbWFpbCI6ImFkbWluIiwicm9sZXMiOiJBRE1JTiJ9.iZWdQUwFuWk-TIYEgLyza_DuNbN0hLUkpqdGpdLwZcg
+
 
 

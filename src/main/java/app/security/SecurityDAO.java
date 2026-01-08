@@ -37,7 +37,7 @@ public class SecurityDAO implements ISecurityDAO {
 
     @Override
     public User createUser(String username, String password) {
-        try(EntityManager em = emf.createEntityManager()){
+        try (EntityManager em = emf.createEntityManager()) {
             String hashedpw = BCrypt.hashpw(password, BCrypt.gensalt(10));
             User user = new User(username, hashedpw);
             user.getRole().add(Role.USER);
@@ -47,7 +47,6 @@ public class SecurityDAO implements ISecurityDAO {
             return user;
 
         }
-
     }
 /*
     @Override
