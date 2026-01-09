@@ -147,7 +147,7 @@ class UserControllerTest {
                 .delete("/user/" + id)
                 .then()
                 .statusCode(200)
-                .body(equalTo("User deleted"));
+                .body("message", equalTo("User deleted"));
 
         //Tjek
         given()
