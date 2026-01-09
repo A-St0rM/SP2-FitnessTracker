@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -51,7 +52,7 @@ public class UserController {
         }
 
         userDAO.delete(id);
-        ctx.status(HttpStatus.OK).result("User deleted");
+        ctx.status(HttpStatus.OK).json(Map.of("message","User deleted"));
 
     }
 
